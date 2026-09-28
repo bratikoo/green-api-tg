@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# green-api-tg
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение (React + TypeScript + Vite) для работы с GREEN API — чат-интерфейс в стиле Telegram.
 
-Currently, two official plugins are available:
+## Требования
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- [Node.js](https://nodejs.org/) 20+
+- npm
 
-## React Compiler
+## Локальный запуск
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# 1. Установить зависимости
+npm install
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+# 2. Запустить dev-сервер
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Приложение откроется по адресу http://localhost:5173 (порт по умолчанию Vite).
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+## Скрипты
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+| Команда          | Описание                                  |
+| ---------------- | ----------------------------------------- |
+| `npm run dev`    | Запуск dev-сервера с HMR                  |
+| `npm run build`  | Сборка production (tsc -b && vite build)  |
+| `npm run preview`| Локальный просмотр собранной сборки       |
+| `npm run lint`   | Проверка кода ESLint                      |
+
+## Использование
+
+Для работы нужен аккаунт [GREEN API](https://green-api.com/): создайте инстанс и получите `idInstance` и `apiTokenInstance`.
+
+Укажите их в файле `.env` в корне проекта:
+
+```env
+VITE_API_URL=<apiUrl>
+VITE_ID_INSTANCE=<idInstance>
+VITE_API_TOKEN_INSTANCE=<apiTokenInstance>
 ```
+
+После изменения `.env` перезапустите dev-сервер.
