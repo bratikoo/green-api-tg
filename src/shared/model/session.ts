@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { CONFIG } from "./config";
 
-export const API_URL = CONFIG.API_URL ?? "https://4100.api.green-api.com";
+export const API_URL = CONFIG.API_URL;
 
 export type Session = {
   idInstance: string;
@@ -38,9 +38,18 @@ function getInitialSession(): Pick<SessionState, "session" | "refreshToken"> {
   }
 }
 
-export const useSession = create<SessionState>()((set) => ({
+export const useSession = create<SessionState>()((set, get) => ({
   ...getInitialSession(),
   signIn: (idInstance, apiTokenInstance) => {
+    const current = get().session;
+    if (
+      current &&
+      current.idInstance === idInstance &&
+      current.apiTokenInstance === apiTokenInstance
+    ) {
+      return;
+    }
+
     const session = { idInstance, apiTokenInstance };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
     set({ session, refreshToken: apiTokenInstance });

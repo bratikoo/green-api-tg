@@ -51,14 +51,20 @@ export function ChatList({
           >
             <ChatAvatar
               chatId={chat.chatId}
-              name={chat.name}
+              name={chat.name || "Без имени"}
               size="lg"
             />
             <div className="min-w-0">
-              <div className="truncate text-sm font-medium">{chat.name}</div>
-              {chat.username && (
+              <div className="truncate text-sm font-medium">
+                {chat.name || "Без имени"}
+              </div>
+              {chat.username ? (
                 <div className="truncate text-xs text-muted-foreground">
                   {chat.username}
+                </div>
+              ) : (
+                <div className="truncate text-xs text-muted-foreground">
+                  Без имени
                 </div>
               )}
             </div>

@@ -74,17 +74,30 @@ export async function logout(
 
 export type AddContactInput = {
   chatId: string;
+  firstName: string;
+  lastName?: string;
 };
 
 export async function addContact(
   session: Session,
-  { chatId }: AddContactInput,
+  { chatId, firstName, lastName }: AddContactInput,
 ): Promise<{ success: boolean }> {
   return fetch(getChatUrl(session, "addContact"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chatId }),
+    body: JSON.stringify({ chatId, firstName, lastName }),
   }).then((res) => toJson<{ success: boolean }>(res));
+}
+
+export async function checkAccount(
+  session: Session,
+  phoneNumber: number,
+): Promise<{ chatId?: string }> {
+  return fetch(getChatUrl(session, "checkAccount"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phoneNumber }),
+  }).then((res) => toJson<{ chatId?: string }>(res));
 }
 
 export async function sendMessage(

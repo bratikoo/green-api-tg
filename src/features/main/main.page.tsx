@@ -33,9 +33,13 @@ function MainPage() {
 
   const handleContactAdded = (chat: Chat) => {
     setActiveChat(chat);
+    void chatsQuery.refetch();
   };
 
-  const activeChatName = useMemo(() => activeChat?.name ?? "", [activeChat]);
+  const activeChatName = useMemo(
+    () => activeChat?.name || "Без имени",
+    [activeChat],
+  );
 
   return (
     <div className="flex h-dvh">
