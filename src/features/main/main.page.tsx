@@ -7,6 +7,7 @@ import { useChatHistory } from "@/shared/api/hooks/use-chat-history";
 import { useSendMessage } from "@/shared/api/hooks/use-send-message";
 import type { Chat } from "@/shared/api/green-api";
 import { ChatList } from "@/features/chats/chat-list";
+import { ChatAvatar } from "@/features/chats/chat-avatar";
 import { MessagesList } from "@/features/chats/messages-list";
 import { MessageInput } from "@/features/chats/message-input";
 import { Button } from "@/shared/ui/kit/button";
@@ -79,7 +80,18 @@ function MainPage() {
               <PanelLeftOpen />
             </Button>
           )}
-          {activeChatName || "Выберите чат"}
+          {activeChat ? (
+            <div className="flex min-w-0 items-center gap-2">
+              <ChatAvatar
+                chatId={activeChat.chatId}
+                name={activeChatName}
+                size="sm"
+              />
+              <span className="truncate">{activeChatName}</span>
+            </div>
+          ) : (
+            "Выберите чат"
+          )}
           <div className="ml-auto flex items-center gap-1">
             <ThemeToggle />
             <Button

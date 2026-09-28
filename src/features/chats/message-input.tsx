@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 
 import { Button } from "@/shared/ui/kit/button";
 import { Input } from "@/shared/ui/kit/input";
+import { LoaderCircle, SendHorizontal } from "lucide-react";
 
 type MessageInputProps = {
   chatName: string;
@@ -9,10 +10,7 @@ type MessageInputProps = {
   onSend: (message: string) => Promise<void>;
 };
 
-export function MessageInput({
-  disabled,
-  onSend,
-}: MessageInputProps) {
+export function MessageInput({ disabled, onSend }: MessageInputProps) {
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
 
@@ -43,7 +41,11 @@ export function MessageInput({
         disabled={disabled}
       />
       <Button type="submit" disabled={disabled || sending || !message.trim()}>
-        {sending ? "Отправка..." : "Отправить"}
+        {sending ? (
+          <LoaderCircle className="size-4 animate-spin" />
+        ) : (
+          <SendHorizontal />
+        )}
       </Button>
     </form>
   );

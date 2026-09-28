@@ -8,7 +8,7 @@ type MessagesListProps = {
 export function MessagesList({ messages, error }: MessagesListProps) {
   if (error) {
     return (
-      <div className="flex flex-1 items-center justify-center text-sm text-destructive">
+      <div className="bg-background bg-[radial-gradient(var(--border)_1.5px,transparent_1.5px)] [background-size:16px_16px] flex flex-1 items-center justify-center text-sm text-destructive">
         {error}
       </div>
     );
@@ -16,7 +16,7 @@ export function MessagesList({ messages, error }: MessagesListProps) {
 
   if (!messages) {
     return (
-      <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+      <div className="bg-background bg-[radial-gradient(var(--border)_1.5px,transparent_1.5px)] [background-size:16px_16px] flex flex-1 items-center justify-center text-sm text-muted-foreground">
         Загрузка сообщений...
       </div>
     );
@@ -24,14 +24,14 @@ export function MessagesList({ messages, error }: MessagesListProps) {
 
   if (messages.length === 0) {
     return (
-      <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+      <div className="bg-background bg-[radial-gradient(var(--border)_1.5px,transparent_1.5px)] [background-size:16px_16px] flex flex-1 items-center justify-center text-sm text-muted-foreground">
         Нет сообщений
       </div>
     );
   }
 
   return (
-    <div className="flex flex-1 flex-col-reverse gap-1.5 overflow-y-auto p-4">
+    <div className="bg-background bg-[radial-gradient(var(--border)_1.5px,transparent_1.5px)] [background-size:16px_16px] flex flex-1 flex-col-reverse gap-1.5 overflow-y-auto p-4">
       {messages.map((message) => (
         <div
           key={message.idMessage}
