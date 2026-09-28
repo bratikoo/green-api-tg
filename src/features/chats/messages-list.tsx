@@ -41,7 +41,7 @@ export function MessagesList({ messages, error }: MessagesListProps) {
               : "self-start bg-muted"
           }`}
         >
-          <div className="break-words whitespace-pre-wrap">
+          <div className="wrap-break-word whitespace-pre-wrap">
             {message.textMessage ?? "—"}
           </div>
           <div className="text-[10px] opacity-60">

@@ -31,13 +31,28 @@ async function toJson<T>(res: Response): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-export function getChats(session: Session): Promise<Chat[]> {
+export async function getChats(session: Session): Promise<Chat[]> {
   return fetch(getChatUrl(session, "getChats")).then((res) =>
     toJson<Chat[]>(res),
   );
 }
 
-export function getChatHistory(
+export type AvatarResponse = {
+  urlAvatar?: string | null;
+};
+
+export async function getAvatar(
+  session: Session,
+  chatId: string,
+): Promise<AvatarResponse> {
+  return fetch(getChatUrl(session, "getAvatar"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chatId }),
+  }).then((res) => toJson<AvatarResponse>(res));
+}
+
+export async function getChatHistory(
   session: Session,
   chatId: string,
   count = 50,
@@ -49,7 +64,30 @@ export function getChatHistory(
   }).then((res) => toJson<ChatMessage[]>(res));
 }
 
-export function sendMessage(
+export async function logout(
+  session: Session,
+): Promise<{ stateInstance: string }> {
+  return fetch(getChatUrl(session, "logout"), {
+    method: "GET",
+  }).then((res) => toJson<{ stateInstance: string }>(res));
+}
+
+export type AddContactInput = {
+  chatId: string;
+};
+
+export async function addContact(
+  session: Session,
+  { chatId }: AddContactInput,
+): Promise<{ success: boolean }> {
+  return fetch(getChatUrl(session, "addContact"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chatId }),
+  }).then((res) => toJson<{ success: boolean }>(res));
+}
+
+export async function sendMessage(
   session: Session,
   chatId: string,
   message: string,

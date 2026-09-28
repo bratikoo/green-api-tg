@@ -6,6 +6,7 @@ import { CONFIG } from "@/shared/model/config";
 import { useSession, type Session } from "@/shared/model/session";
 import { useInstanceState } from "@/shared/api/hooks/use-instance-state";
 import { useQr } from "@/shared/api/hooks/use-qr";
+import { ThemeToggle } from "@/shared/ui/kit/theme-toggle";
 
 const initialCredentials: Session | null =
   CONFIG.ID_INSTANCE && CONFIG.API_TOKEN_INSTANCE
@@ -50,7 +51,10 @@ function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center gap-4 p-4">
+    <div className="relative flex min-h-dvh flex-col items-center justify-center gap-4 p-4">
+      <div className="absolute top-3 right-3">
+        <ThemeToggle />
+      </div>
       <h1 className="text-lg font-medium">Вход GREEN API</h1>
       <p className="text-sm text-muted-foreground">
         Отсканируйте QR-код в Telegram

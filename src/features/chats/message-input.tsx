@@ -10,7 +10,6 @@ type MessageInputProps = {
 };
 
 export function MessageInput({
-  chatName,
   disabled,
   onSend,
 }: MessageInputProps) {
@@ -40,7 +39,7 @@ export function MessageInput({
       <Input
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder={`Сообщение в «${chatName}»`}
+        placeholder="Введите сообщение..."
         disabled={disabled}
       />
       <Button type="submit" disabled={disabled || sending || !message.trim()}>

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen, LogOut } from "lucide-react";
 
 import { useSession } from "@/shared/model/session";
 import { useChats } from "@/shared/api/hooks/use-chats";
@@ -10,6 +10,9 @@ import { ChatList } from "@/features/chats/chat-list";
 import { MessagesList } from "@/features/chats/messages-list";
 import { MessageInput } from "@/features/chats/message-input";
 import { Button } from "@/shared/ui/kit/button";
+import { useLogout } from "@/shared/api/hooks/use-logout";
+import { ThemeToggle } from "@/shared/ui/kit/theme-toggle";
+import { AddContactDialog } from "@/features/chats/add-contact-dialog";
 
 function MainPage() {
   const session = useSession((state) => state.session);
@@ -19,11 +22,16 @@ function MainPage() {
   const chatsQuery = useChats();
   const messagesQuery = useChatHistory(activeChat?.chatId ?? null);
   const sendMessageMutation = useSendMessage(activeChat?.chatId ?? null);
+  const logoutMutation = useLogout();
 
   const chats = chatsQuery.data ?? null;
 
   const handleSend = async (text: string) => {
     await sendMessageMutation.mutateAsync(text);
+  };
+
+  const handleContactAdded = (chat: Chat) => {
+    setActiveChat(chat);
   };
 
   const activeChatName = useMemo(() => activeChat?.name ?? "", [activeChat]);
@@ -38,14 +46,17 @@ function MainPage() {
       >
         <header className="flex h-12 w-72 shrink-0 items-center justify-between border-b border-border px-3 text-sm font-medium">
           Чаты
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Скрыть список чатов"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <PanelLeftClose />
-          </Button>
+          <div className="flex items-center gap-1">
+            <AddContactDialog onContactAdded={handleContactAdded} />
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Скрыть список чатов"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <PanelLeftClose />
+            </Button>
+          </div>
         </header>
         <div className="w-72 flex-1 overflow-y-auto">
           <ChatList
@@ -69,6 +80,18 @@ function MainPage() {
             </Button>
           )}
           {activeChatName || "Выберите чат"}
+          <div className="ml-auto flex items-center gap-1">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Выйти из аккаунта"
+              disabled={logoutMutation.isPending}
+              onClick={() => logoutMutation.mutate()}
+            >
+              <LogOut />
+            </Button>
+          </div>
         </header>
         {activeChat ? (
           <>

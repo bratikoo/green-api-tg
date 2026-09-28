@@ -1,4 +1,5 @@
 import type { Chat } from "@/shared/api/green-api";
+import { ChatAvatar } from "@/features/chats/chat-avatar";
 
 type ChatListProps = {
   chats: Chat[] | null;
@@ -44,16 +45,23 @@ export function ChatList({
           <button
             type="button"
             onClick={() => onSelect(chat)}
-            className={`w-full border-b border-border px-4 py-3 text-left transition-colors hover:bg-muted ${
+            className={`flex w-full items-center gap-3 border-b border-border px-4 py-3 text-left transition-colors hover:bg-muted ${
               chat.chatId === activeChatId ? "bg-muted" : ""
             }`}
           >
-            <div className="text-sm font-medium">{chat.name}</div>
-            {chat.username && (
-              <div className="text-xs text-muted-foreground">
-                {chat.username}
-              </div>
-            )}
+            <ChatAvatar
+              chatId={chat.chatId}
+              name={chat.name}
+              size="lg"
+            />
+            <div className="min-w-0">
+              <div className="truncate text-sm font-medium">{chat.name}</div>
+              {chat.username && (
+                <div className="truncate text-xs text-muted-foreground">
+                  {chat.username}
+                </div>
+              )}
+            </div>
           </button>
         </li>
       ))}
